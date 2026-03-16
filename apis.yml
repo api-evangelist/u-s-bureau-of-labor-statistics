@@ -1,15 +1,37 @@
-name: u-s-bureau-of-labor-statistics
-description: Needs a description.
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json-icons/apis-json.png
-url: https://example.com/apis/apis.yml
-type: Contract
+aid: u-s-bureau-of-labor-statistics
+name: U.S. Bureau of Labor Statistics
+description: The U.S. Bureau of Labor Statistics provides API access to labor statistics including employment, unemployment, prices, and compensation data.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/apis.yml
+type: Index
 created: '2024-12-25'
-modified: '2024-12-25'
-specificationVersion: '0.18'
+modified: '2026-03-16'
+specificationVersion: '0.19'
 tags:
-  - Tag
-apis: []
-common: []
+  - Federal Government
+  - Labor
+  - Statistics
+apis:
+  - aid: u-s-bureau-of-labor-statistics:bls-api
+    name: BLS Public Data API
+    description: >-
+      The BLS Public Data API provides programmatic access to labor statistics
+      data including employment, unemployment, prices, and compensation.
+    humanURL: https://www.bls.gov/developers/
+    baseURL: https://api.bls.gov/publicAPI/v2
+    tags:
+      - Labor Statistics
+    properties:
+      - type: Documentation
+        url: https://www.bls.gov/developers/api_signature_v2.htm
+      - type: Getting Started
+        url: https://www.bls.gov/developers/
+common:
+  - type: Website
+    url: https://www.bls.gov/
+  - type: Documentation
+    url: https://www.bls.gov/developers/
 maintainers:
-  - FN: API Evangelist
-    email: info@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
