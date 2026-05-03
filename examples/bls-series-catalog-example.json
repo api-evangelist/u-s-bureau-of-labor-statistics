@@ -1,0 +1,10 @@
+{
+  "series_id": "LNS14000000",
+  "seasonality": "Seasonally Adjusted",
+  "series_title": "(Seas) Unemployment Rate",
+  "measure_data_type": "Unemployment rate",
+  "commerce_industry": "",
+  "occupation": "",
+  "survey_name": "Labor Force Statistics from the Current Population Survey",
+  "survey_abbreviation": "LN"
+}

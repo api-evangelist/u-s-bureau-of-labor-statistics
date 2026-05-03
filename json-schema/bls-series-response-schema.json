@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-response-schema.json",
+  "title": "SeriesResponse",
+  "description": "Standard BLS API response containing time series data.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Request status (REQUEST_SUCCEEDED, REQUEST_FAILED, REQUEST_NOT_PROCESSED).",
+      "example": "REQUEST_SUCCEEDED"
+    },
+    "responseTime": {
+      "type": "integer",
+      "description": "Server response time in milliseconds.",
+      "example": 178
+    },
+    "message": {
+      "type": "array",
+      "description": "Array of informational or error messages.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Results": {
+      "$ref": "#/components/schemas/SeriesResults"
+    }
+  }
+}

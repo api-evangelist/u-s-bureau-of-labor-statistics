@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-data-point-schema.json",
+  "title": "DataPoint",
+  "description": "A single time series data observation.",
+  "type": "object",
+  "properties": {
+    "year": {
+      "type": "string",
+      "description": "Calendar year of the observation.",
+      "example": "2025"
+    },
+    "period": {
+      "type": "string",
+      "description": "Period code in M01-M13 format (M13 is annual average).",
+      "example": "M03"
+    },
+    "periodName": {
+      "type": "string",
+      "description": "Human-readable period name.",
+      "example": "March"
+    },
+    "value": {
+      "type": "string",
+      "description": "The data value as a string. May be \"-\" if data is not available.",
+      "example": "318.449"
+    },
+    "footnotes": {
+      "type": "array",
+      "description": "Array of footnotes applicable to this data point.",
+      "items": {
+        "$ref": "#/components/schemas/Footnote"
+      }
+    },
+    "latest": {
+      "type": "string",
+      "description": "Indicates if this is the most recent data point.",
+      "example": "true"
+    },
+    "calculations": {
+      "$ref": "#/components/schemas/PeriodCalculations"
+    }
+  }
+}

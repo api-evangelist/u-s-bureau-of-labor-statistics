@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-survey-structure.json",
+  "description": "Metadata for a BLS survey program.",
+  "type": "object",
+  "properties": {
+    "survey_name": {
+      "type": "string",
+      "description": "Full name of the BLS survey.",
+      "example": "Current Employment Statistics"
+    },
+    "survey_abbreviation": {
+      "type": "string",
+      "description": "Two-letter abbreviation for the survey.",
+      "example": "CE"
+    },
+    "survey_title": {
+      "type": "string",
+      "description": "Extended title of the survey.",
+      "example": "Current Employment Statistics (National)"
+    },
+    "survey_description": {
+      "type": "string",
+      "description": "Description of the survey's scope and methodology.",
+      "example": "Monthly survey of approximately 144,000 businesses and government agencies."
+    }
+  },
+  "name": "Survey"
+}

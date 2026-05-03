@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-multiple-series-request-structure.json",
+  "description": "Request body for fetching multiple time series.",
+  "type": "object",
+  "properties": {
+    "seriesid": {
+      "type": "array",
+      "description": "Array of BLS series IDs to retrieve. Version 2 supports up to 50 series; Version 1 supports up to 25 series.",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "LNS14000000",
+        "CUUR0000SA0"
+      ]
+    },
+    "startyear": {
+      "type": "string",
+      "description": "First year of data to retrieve in YYYY format.",
+      "example": "2020"
+    },
+    "endyear": {
+      "type": "string",
+      "description": "Last year of data to retrieve in YYYY format.",
+      "example": "2025"
+    },
+    "registrationkey": {
+      "type": "string",
+      "description": "BLS API Version 2 registration key.",
+      "example": "abc123def456"
+    },
+    "catalog": {
+      "type": "boolean",
+      "description": "Include series catalog metadata in the response.",
+      "example": false
+    },
+    "calculations": {
+      "type": "boolean",
+      "description": "Include net change and percent change calculations.",
+      "example": true
+    },
+    "annualaverage": {
+      "type": "boolean",
+      "description": "Include annual average values.",
+      "example": false
+    },
+    "aspects": {
+      "type": "boolean",
+      "description": "Include aspects metadata.",
+      "example": false
+    }
+  },
+  "required": [
+    "seriesid"
+  ],
+  "name": "MultipleSeriesRequest"
+}

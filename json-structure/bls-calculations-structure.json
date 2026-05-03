@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-calculations-structure.json",
+  "description": "Net and percent change calculations for a series.",
+  "type": "object",
+  "properties": {
+    "net_changes": {
+      "type": "object",
+      "description": "Net change values by period label.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "pct_changes": {
+      "type": "object",
+      "description": "Percent change values by period label.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "name": "Calculations"
+}

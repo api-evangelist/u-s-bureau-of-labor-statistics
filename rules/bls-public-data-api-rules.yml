@@ -1,0 +1,304 @@
+rules:
+  # INFO / METADATA
+  info-title-required:
+    description: API title must be present and include "BLS" or "Bureau of Labor Statistics".
+    severity: error
+    given: $.info.title
+    then:
+      function: truthy
+
+  info-description-required:
+    description: API info must have a description with at least 50 characters.
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: minLength
+      functionOptions:
+        min: 50
+
+  info-version-required:
+    description: API version must be specified.
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  info-contact-required:
+    description: Contact information should be provided.
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  # OPENAPI VERSION
+  openapi-version-3:
+    description: All BLS API specs must use OpenAPI 3.0.x.
+    severity: warn
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: "^3\\.0\\."
+
+  # SERVERS
+  servers-defined:
+    description: At least one server must be defined.
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  servers-bls-domain:
+    description: Server URL should point to api.bls.gov.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "api\\.bls\\.gov"
+
+  # PATHS — NAMING CONVENTIONS
+  paths-kebab-case:
+    description: Path segments must use kebab-case (lowercase letters, numbers, hyphens, or {params}).
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/[a-z0-9{}-]*)+$"
+
+  paths-no-trailing-slash:
+    description: Paths should not have trailing slashes (except the multiple series POST endpoint).
+    severity: info
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ".+/$"
+
+  paths-versioned:
+    description: All paths should be accessed via a versioned server URL (v1 or v2).
+    severity: info
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: "/v[12]$"
+
+  # OPERATIONS
+  operation-summary-required:
+    description: All operations must have a summary.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-prefix:
+    description: Operation summaries should start with "U.S. Bureau of Labor Statistics".
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: "^U\\.S\\. Bureau of Labor Statistics"
+
+  operation-description-required:
+    description: All operations must have a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  operation-id-required:
+    description: All operations must have an operationId.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+
+  operation-id-camel-case:
+    description: OperationIds should use camelCase.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  operation-tags-required:
+    description: All operations must have at least one tag.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+
+  # TAGS
+  tags-defined:
+    description: Global tags array should be defined.
+    severity: info
+    given: $
+    then:
+      field: tags
+      function: truthy
+
+  # PARAMETERS
+  parameter-description-required:
+    description: All parameters must have a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  parameter-schema-required:
+    description: All parameters must have a schema.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: schema
+      function: truthy
+
+  parameter-snake-case:
+    description: Query and path parameter names should use snake_case.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in == 'query' || @.in == 'path')].name
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  # REQUEST BODIES
+  request-body-json:
+    description: POST request bodies should use application/json content type.
+    severity: warn
+    given: $.paths[*].post.requestBody.content
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - application/json
+
+  # RESPONSES
+  response-success-required:
+    description: All operations must define a 200 response.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - "200"
+
+  response-400-defined:
+    description: Operations should define a 400 Bad Request response.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - "400"
+
+  response-description-required:
+    description: All response definitions must have a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses[*]
+    then:
+      field: description
+      function: truthy
+
+  # SCHEMAS — PROPERTY NAMING
+  schema-description-required:
+    description: All top-level component schemas should have a description.
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: description
+      function: truthy
+
+  schema-property-snake-case:
+    description: Schema property names should use snake_case.
+    severity: info
+    given: $.components.schemas[*].properties[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  # SECURITY
+  security-scheme-defined:
+    description: Security schemes should be defined in components.
+    severity: warn
+    given: $.components.securitySchemes
+    then:
+      function: truthy
+
+  security-scheme-description:
+    description: Security schemes should have a description.
+    severity: info
+    given: $.components.securitySchemes[*]
+    then:
+      field: description
+      function: truthy
+
+  # HTTP METHOD CONVENTIONS
+  get-no-request-body:
+    description: GET operations must not have a request body.
+    severity: error
+    given: $.paths[*].get
+    then:
+      field: requestBody
+      function: falsy
+
+  # GENERAL QUALITY
+  no-empty-descriptions:
+    description: Descriptions should not be empty strings.
+    severity: warn
+    given: $..description
+    then:
+      function: pattern
+      functionOptions:
+        match: ".{1,}"
+
+  bls-status-field-documented:
+    description: BLS API responses include a 'status' field; schemas should document it.
+    severity: info
+    given: $.components.schemas.SeriesResponse.properties
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - status
+
+  bls-registration-key-optional:
+    description: registrationkey parameter should not be marked as required (public endpoints work without it).
+    severity: warn
+    given: $.paths[*][get,post].parameters[?(@.name == 'registrationkey')].required
+    then:
+      function: falsy

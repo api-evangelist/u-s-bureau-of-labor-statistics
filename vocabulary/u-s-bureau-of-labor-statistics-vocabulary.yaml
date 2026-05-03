@@ -1,0 +1,299 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "U.S. Bureau of Labor Statistics"
+  description: >-
+    Vocabulary mapping the BLS Public Data API operational dimension (OpenAPI
+    endpoints, schemas, parameters) and the capability dimension (Naftiko
+    workflows and personas) for labor market data access.
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+operational:
+  apis:
+    - name: BLS Public Data API
+      namespace: bls-public-data
+      version: "2.0"
+      baseUrl: https://api.bls.gov/publicAPI/v2
+      status: active
+
+  resources:
+    - name: time-series
+      description: BLS economic indicator time series data
+      api: bls-public-data
+      actions:
+        - get
+        - list
+        - search
+    - name: surveys
+      description: BLS survey program metadata and catalogs
+      api: bls-public-data
+      actions:
+        - get
+        - list
+    - name: popular-series
+      description: The 25 most accessed BLS time series
+      api: bls-public-data
+      actions:
+        - list
+
+  actions:
+    - name: get
+      description: Retrieve a single resource by identifier
+      httpMethod: GET
+      pattern: read
+    - name: list
+      description: Retrieve a collection of resources
+      httpMethod: GET
+      pattern: read
+    - name: search
+      description: Query multiple resources by criteria
+      httpMethod: POST
+      pattern: query
+
+  schemas:
+    core:
+      - name: SeriesResponse
+        description: Standard BLS API response wrapper with status and results
+        properties:
+          - status
+          - responseTime
+          - message
+          - Results
+      - name: DataPoint
+        description: A single time series observation with year, period, and value
+        properties:
+          - year
+          - period
+          - periodName
+          - value
+          - footnotes
+          - latest
+      - name: SeriesData
+        description: A complete series with identifier, catalog, and data points
+        properties:
+          - seriesID
+          - catalog
+          - data
+          - calculations
+      - name: Survey
+        description: Metadata for a BLS survey program
+        properties:
+          - survey_name
+          - survey_abbreviation
+          - survey_title
+          - survey_description
+    supporting:
+      - name: SeriesCatalog
+        description: Descriptive metadata for a BLS series
+        properties:
+          - series_id
+          - seasonality
+          - series_title
+          - measure_data_type
+          - survey_name
+      - name: Calculations
+        description: Net and percent change calculations for a series
+        properties:
+          - net_changes
+          - pct_changes
+      - name: Footnote
+        description: A footnote code and explanation for a data point
+        properties:
+          - code
+          - text
+      - name: MultipleSeriesRequest
+        description: Request body for fetching multiple time series
+        properties:
+          - seriesid
+          - startyear
+          - endyear
+          - registrationkey
+          - catalog
+          - calculations
+          - annualaverage
+
+  parameters:
+    identifiers:
+      - name: seriesId
+        description: BLS series identifier (e.g., LNS14000000, CUUR0000SA0)
+        type: string
+      - name: surveyId
+        description: BLS survey abbreviation (e.g., CPS, CES, AP)
+        type: string
+    filters:
+      - name: startyear
+        description: First year of data to retrieve in YYYY format
+        type: string
+      - name: endyear
+        description: Last year of data to retrieve in YYYY format
+        type: string
+      - name: survey
+        description: Survey abbreviation for filtering popular series
+        type: string
+    pagination: []
+    options:
+      - name: catalog
+        description: Include series catalog metadata in the response
+        type: boolean
+      - name: calculations
+        description: Include net and percent change calculations
+        type: boolean
+      - name: annualaverage
+        description: Include annual averages in the response
+        type: boolean
+      - name: aspects
+        description: Include aspects metadata
+        type: boolean
+
+  enums:
+    responseStatus:
+      - REQUEST_SUCCEEDED
+      - REQUEST_FAILED
+      - REQUEST_NOT_PROCESSED
+    periodCodes:
+      - M01
+      - M02
+      - M03
+      - M04
+      - M05
+      - M06
+      - M07
+      - M08
+      - M09
+      - M10
+      - M11
+      - M12
+      - M13
+    seasonality:
+      - Seasonally Adjusted
+      - Not Seasonally Adjusted
+    surveySamples:
+      - CPS
+      - CES
+      - AP
+      - LN
+      - CE
+      - WS
+      - PW
+
+  authentication:
+    schemes:
+      - type: apiKey
+        in: query
+        name: registrationkey
+        description: Free BLS API key obtained from data.bls.gov/registrationEngine/
+    notes: >-
+      Version 1 of the API does not require authentication but has lower
+      query limits. Version 2 requires a registration key for up to 500
+      queries/day and access to catalog, calculations, and annual averages.
+
+capability:
+  workflows:
+    - name: labor-market-intelligence
+      file: capabilities/labor-market-intelligence.yaml
+      description: >-
+        Unified workflow for economists, researchers, and policy analysts to
+        access BLS labor market data for employment analysis, inflation
+        monitoring, and economic research.
+      apis:
+        - bls-public-data
+      tools: 7
+      personas:
+        - Economist
+        - Policy Analyst
+        - Data Engineer
+      domains:
+        - Labor Market
+        - Economic Research
+        - Policy Analysis
+
+  personas:
+    - id: economist
+      name: Economist
+      description: >-
+        Academic or government economist analyzing labor market trends,
+        wages, employment, and economic cycles using BLS time series data.
+      workflows:
+        - labor-market-intelligence
+
+    - id: policy-analyst
+      name: Policy Analyst
+      description: >-
+        Government or think tank analyst using BLS indicators to inform
+        employment policy, inflation monitoring, and economic forecasting.
+      workflows:
+        - labor-market-intelligence
+
+    - id: data-engineer
+      name: Data Engineer
+      description: >-
+        Developer or data engineer integrating BLS data into dashboards,
+        data pipelines, and economic applications.
+      workflows:
+        - labor-market-intelligence
+
+    - id: journalist
+      name: Economic Journalist
+      description: >-
+        Reporter using BLS data to contextualize economic news stories about
+        unemployment, inflation, wages, and job market trends.
+      workflows:
+        - labor-market-intelligence
+
+  domains:
+    - name: Labor Market
+      description: Employment, unemployment, wages, and workforce statistics
+    - name: Economic Research
+      description: Academic and policy research using government economic data
+    - name: Policy Analysis
+      description: Data-driven analysis of labor and economic policy
+
+  namespaces:
+    consumed:
+      - name: bls-public-data
+        baseUri: https://api.bls.gov/publicAPI/v2
+    rest:
+      - name: labor-market-intelligence-api
+        port: 8080
+    mcp:
+      - name: labor-market-intelligence-mcp
+        port: 9090
+
+  binds:
+    - name: BLS_API_KEY
+      description: BLS API registration key for Version 2 access
+      workflows:
+        - labor-market-intelligence
+
+crossReference:
+  - resource: time-series
+    operations:
+      - getSingleSeries
+      - getMultipleSeries
+    workflows:
+      - labor-market-intelligence
+    personas:
+      - Economist
+      - Policy Analyst
+      - Data Engineer
+      - Economic Journalist
+
+  - resource: surveys
+    operations:
+      - getAllSurveys
+      - getSurveyMetadata
+    workflows:
+      - labor-market-intelligence
+    personas:
+      - Economist
+      - Data Engineer
+
+  - resource: popular-series
+    operations:
+      - getPopularSeries
+    workflows:
+      - labor-market-intelligence
+    personas:
+      - Data Engineer
+      - Economic Journalist

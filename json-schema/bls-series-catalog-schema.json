@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-catalog-schema.json",
+  "title": "SeriesCatalog",
+  "description": "Catalog metadata describing a BLS series.",
+  "type": "object",
+  "properties": {
+    "series_id": {
+      "type": "string",
+      "description": "BLS series identifier.",
+      "example": "LNS14000000"
+    },
+    "seasonality": {
+      "type": "string",
+      "description": "Seasonality adjustment type (Seasonally Adjusted, Not Seasonally Adjusted).",
+      "example": "Seasonally Adjusted"
+    },
+    "series_title": {
+      "type": "string",
+      "description": "Descriptive title for the series.",
+      "example": "(Seas) Unemployment Rate"
+    },
+    "measure_data_type": {
+      "type": "string",
+      "description": "Type of measure reported.",
+      "example": "Unemployment rate"
+    },
+    "commerce_industry": {
+      "type": "string",
+      "description": "Industry classification if applicable.",
+      "example": ""
+    },
+    "occupation": {
+      "type": "string",
+      "description": "Occupation classification if applicable.",
+      "example": ""
+    },
+    "survey_name": {
+      "type": "string",
+      "description": "Full name of the BLS survey providing this series.",
+      "example": "Labor Force Statistics from the Current Population Survey"
+    },
+    "survey_abbreviation": {
+      "type": "string",
+      "description": "Abbreviation code for the BLS survey.",
+      "example": "LN"
+    }
+  }
+}

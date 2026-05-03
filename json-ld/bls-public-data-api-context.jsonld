@@ -1,0 +1,172 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "bls": "https://api.bls.gov/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Calculations": "bls:Calculations",
+    "DataPoint": "bls:DataPoint",
+    "Footnote": "bls:Footnote",
+    "MultipleSeriesRequest": "bls:MultipleSeriesRequest",
+    "PeriodCalculations": "bls:PeriodCalculations",
+    "PopularSeriesResponse": "bls:PopularSeriesResponse",
+    "SeriesCatalog": "bls:SeriesCatalog",
+    "SeriesData": "bls:SeriesData",
+    "SeriesResponse": "bls:SeriesResponse",
+    "SeriesResults": "bls:SeriesResults",
+    "SurveyMetadataResponse": "bls:SurveyMetadataResponse",
+    "Survey": "bls:Survey",
+    "SurveysResponse": "bls:SurveysResponse",
+    "netChanges": {
+      "@id": "bls:net_changes",
+      "@type": "xsd:string"
+    },
+    "pctChanges": {
+      "@id": "bls:pct_changes",
+      "@type": "xsd:string"
+    },
+    "year": {
+      "@id": "bls:year",
+      "@type": "xsd:string"
+    },
+    "period": {
+      "@id": "bls:period",
+      "@type": "xsd:string"
+    },
+    "periodName": {
+      "@id": "bls:periodName",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "bls:value",
+      "@type": "xsd:string"
+    },
+    "footnotes": {
+      "@id": "bls:footnotes",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "latest": {
+      "@id": "bls:latest",
+      "@type": "xsd:string"
+    },
+    "calculations": {
+      "@id": "bls:calculations",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "bls:code",
+      "@type": "xsd:string"
+    },
+    "text": {
+      "@id": "bls:text",
+      "@type": "xsd:string"
+    },
+    "seriesid": {
+      "@id": "bls:seriesid",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "startyear": {
+      "@id": "bls:startyear",
+      "@type": "xsd:string"
+    },
+    "endyear": {
+      "@id": "bls:endyear",
+      "@type": "xsd:string"
+    },
+    "registrationkey": {
+      "@id": "bls:registrationkey",
+      "@type": "xsd:string"
+    },
+    "catalog": {
+      "@id": "bls:catalog",
+      "@type": "xsd:boolean"
+    },
+    "annualaverage": {
+      "@id": "bls:annualaverage",
+      "@type": "xsd:boolean"
+    },
+    "aspects": {
+      "@id": "bls:aspects",
+      "@type": "xsd:boolean"
+    },
+    "status": {
+      "@id": "bls:status",
+      "@type": "xsd:string"
+    },
+    "responseTime": {
+      "@id": "bls:responseTime",
+      "@type": "xsd:integer"
+    },
+    "message": {
+      "@id": "bls:message",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "Results": {
+      "@id": "bls:Results",
+      "@type": "xsd:string"
+    },
+    "series": {
+      "@id": "bls:series",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "seriesID": {
+      "@id": "bls:seriesID",
+      "@type": "xsd:string"
+    },
+    "seriesId": {
+      "@id": "bls:series_id",
+      "@type": "xsd:string"
+    },
+    "seasonality": {
+      "@id": "bls:seasonality",
+      "@type": "xsd:string"
+    },
+    "seriesTitle": {
+      "@id": "bls:series_title",
+      "@type": "xsd:string"
+    },
+    "measureDataType": {
+      "@id": "bls:measure_data_type",
+      "@type": "xsd:string"
+    },
+    "commerceIndustry": {
+      "@id": "bls:commerce_industry",
+      "@type": "xsd:string"
+    },
+    "occupation": {
+      "@id": "bls:occupation",
+      "@type": "xsd:string"
+    },
+    "surveyName": {
+      "@id": "bls:survey_name",
+      "@type": "xsd:string"
+    },
+    "surveyAbbreviation": {
+      "@id": "bls:survey_abbreviation",
+      "@type": "xsd:string"
+    },
+    "data": {
+      "@id": "bls:data",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "survey": {
+      "@id": "bls:survey",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "surveyTitle": {
+      "@id": "bls:survey_title",
+      "@type": "xsd:string"
+    },
+    "surveyDescription": {
+      "@id": "bls:survey_description",
+      "@type": "xsd:string"
+    }
+  }
+}

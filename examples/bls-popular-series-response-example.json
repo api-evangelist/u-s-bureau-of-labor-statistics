@@ -1,0 +1,20 @@
+{
+  "status": "REQUEST_SUCCEEDED",
+  "responseTime": 89,
+  "message": [
+    "sample-value",
+    "sample-value"
+  ],
+  "Results": {
+    "series": [
+      {
+        "seriesID": "LNS14000000",
+        "catalog": "sample-value"
+      },
+      {
+        "seriesID": "LNS14000000",
+        "catalog": "sample-value"
+      }
+    ]
+  }
+}

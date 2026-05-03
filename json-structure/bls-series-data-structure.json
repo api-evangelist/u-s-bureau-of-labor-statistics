@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-series-data-structure.json",
+  "description": "Data for a single BLS time series.",
+  "type": "object",
+  "properties": {
+    "seriesID": {
+      "type": "string",
+      "description": "BLS series identifier.",
+      "example": "CUUR0000SA0"
+    },
+    "catalog": {
+      "$ref": "#/components/schemas/SeriesCatalog"
+    },
+    "data": {
+      "type": "array",
+      "description": "Array of data points for the series.",
+      "items": {
+        "$ref": "#/components/schemas/DataPoint"
+      }
+    },
+    "calculations": {
+      "$ref": "#/components/schemas/Calculations"
+    }
+  },
+  "name": "SeriesData"
+}

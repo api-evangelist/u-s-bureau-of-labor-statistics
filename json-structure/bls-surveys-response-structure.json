@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-surveys-response-structure.json",
+  "description": "Response containing all available BLS surveys.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Request status.",
+      "example": "REQUEST_SUCCEEDED"
+    },
+    "responseTime": {
+      "type": "int32",
+      "description": "Response time in milliseconds.",
+      "example": 132
+    },
+    "message": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Results": {
+      "type": "object",
+      "description": "Results containing survey list.",
+      "properties": {
+        "survey": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Survey"
+          }
+        }
+      }
+    }
+  },
+  "name": "SurveysResponse"
+}

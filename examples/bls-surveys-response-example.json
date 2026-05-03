@@ -1,0 +1,14 @@
+{
+  "status": "REQUEST_SUCCEEDED",
+  "responseTime": 132,
+  "message": [
+    "sample-value",
+    "sample-value"
+  ],
+  "Results": {
+    "survey": [
+      "sample-value",
+      "sample-value"
+    ]
+  }
+}

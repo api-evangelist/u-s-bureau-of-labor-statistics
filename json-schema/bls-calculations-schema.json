@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-calculations-schema.json",
+  "title": "Calculations",
+  "description": "Net and percent change calculations for a series.",
+  "type": "object",
+  "properties": {
+    "net_changes": {
+      "type": "object",
+      "description": "Net change values by period label.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "pct_changes": {
+      "type": "object",
+      "description": "Percent change values by period label.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

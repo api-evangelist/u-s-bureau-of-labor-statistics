@@ -1,0 +1,13 @@
+{
+  "seriesid": [
+    "LNS14000000",
+    "CUUR0000SA0"
+  ],
+  "startyear": "2020",
+  "endyear": "2025",
+  "registrationkey": "abc123def456",
+  "catalog": false,
+  "calculations": true,
+  "annualaverage": false,
+  "aspects": false
+}

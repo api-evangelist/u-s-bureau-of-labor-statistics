@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-popular-series-response-schema.json",
+  "title": "PopularSeriesResponse",
+  "description": "Response containing popular BLS series.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Request status.",
+      "example": "REQUEST_SUCCEEDED"
+    },
+    "responseTime": {
+      "type": "integer",
+      "description": "Response time in milliseconds.",
+      "example": 89
+    },
+    "message": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Results": {
+      "type": "object",
+      "description": "Results containing popular series list.",
+      "properties": {
+        "series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "seriesID": {
+                "type": "string",
+                "description": "BLS series identifier.",
+                "example": "LNS14000000"
+              },
+              "catalog": {
+                "$ref": "#/components/schemas/SeriesCatalog"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

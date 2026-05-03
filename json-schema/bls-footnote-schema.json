@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-footnote-schema.json",
+  "title": "Footnote",
+  "description": "A footnote code and text applicable to a data point.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Footnote code letter.",
+      "example": "P"
+    },
+    "text": {
+      "type": "string",
+      "description": "Footnote explanation text.",
+      "example": "Preliminary"
+    }
+  }
+}

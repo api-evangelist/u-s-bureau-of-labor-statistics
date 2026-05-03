@@ -1,0 +1,229 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "BLS Labor Market Intelligence"
+  description: >-
+    Workflow capability for economists, researchers, policy analysts, and data
+    engineers to access U.S. Bureau of Labor Statistics time series data
+    covering employment, unemployment, inflation, wages, and productivity.
+    Combines the BLS Public Data API into a unified labor market data service.
+  tags:
+    - Bureau of Labor Statistics
+    - Labor Market
+    - Economic Research
+    - Policy Analysis
+    - Employment
+    - Inflation
+    - Federal Government
+  created: "2026-05-03"
+  modified: "2026-05-03"
+
+binds:
+  - namespace: env
+    keys:
+      BLS_API_KEY: BLS_API_KEY
+
+capability:
+  consumes:
+    - import: bls-public-data
+      location: ./shared/bls-public-data-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: labor-market-intelligence-api
+      description: "Unified REST API for BLS labor market data and economic indicators."
+      resources:
+        - path: /v1/timeseries/{seriesId}
+          name: time-series
+          description: "Access BLS time series data by series ID."
+          operations:
+            - method: GET
+              name: get-time-series
+              description: "Retrieve historical economic indicator data for a BLS series."
+              call: "bls-public-data.get-single-series"
+              with:
+                seriesId: "rest.seriesId"
+                startyear: "rest.startyear"
+                endyear: "rest.endyear"
+                calculations: "rest.calculations"
+                annualaverage: "rest.annualaverage"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/timeseries
+          name: multi-series
+          description: "Query multiple BLS time series in a single request."
+          operations:
+            - method: POST
+              name: get-multiple-indicators
+              description: "Retrieve data for multiple economic indicators simultaneously."
+              call: "bls-public-data.get-multiple-series"
+              with:
+                series_ids: "rest.seriesid"
+                start_year: "rest.startyear"
+                end_year: "rest.endyear"
+                calculations: "rest.calculations"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/timeseries/popular
+          name: popular-indicators
+          description: "Access the most widely used BLS economic indicator series."
+          operations:
+            - method: GET
+              name: get-popular-indicators
+              description: "List the 25 most popular BLS economic time series."
+              call: "bls-public-data.get-popular-series"
+              with:
+                survey: "rest.survey"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/surveys
+          name: surveys
+          description: "Discover available BLS survey programs."
+          operations:
+            - method: GET
+              name: list-surveys
+              description: "List all available BLS survey programs and their abbreviations."
+              call: "bls-public-data.get-all-surveys"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/surveys/{surveyId}
+          name: survey-detail
+          description: "Get details for a specific BLS survey program."
+          operations:
+            - method: GET
+              name: get-survey
+              description: "Retrieve metadata and description for a specific BLS survey."
+              call: "bls-public-data.get-survey-metadata"
+              with:
+                surveyId: "rest.surveyId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: labor-market-intelligence-mcp
+      transport: http
+      description: "MCP server for AI-assisted labor market analysis using BLS data."
+      tools:
+        - name: get-unemployment-rate
+          description: >-
+            Retrieve U.S. unemployment rate time series data. Use series ID
+            LNS14000000 for the national seasonally adjusted unemployment rate,
+            or specify a different series ID for demographic breakdowns.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "bls-public-data.get-single-series"
+          with:
+            seriesId: "tools.series_id"
+            startyear: "tools.start_year"
+            endyear: "tools.end_year"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-cpi-inflation
+          description: >-
+            Retrieve Consumer Price Index (CPI) data for measuring inflation.
+            Use CUUR0000SA0 for CPI-U All Items, or specify a different CPI
+            series for category-specific inflation (food, energy, housing).
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "bls-public-data.get-single-series"
+          with:
+            seriesId: "tools.series_id"
+            startyear: "tools.start_year"
+            endyear: "tools.end_year"
+            calculations: "tools.calculations"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-employment-statistics
+          description: >-
+            Retrieve Current Employment Statistics (CES) data including total
+            nonfarm employment, industry employment, and average hourly earnings.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "bls-public-data.get-single-series"
+          with:
+            seriesId: "tools.series_id"
+            startyear: "tools.start_year"
+            endyear: "tools.end_year"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-multiple-economic-indicators
+          description: >-
+            Retrieve multiple BLS economic indicators in a single API call.
+            Supports up to 50 series for comparative analysis across employment,
+            wages, prices, and productivity metrics.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "bls-public-data.get-multiple-series"
+          with:
+            series_ids: "tools.series_ids"
+            start_year: "tools.start_year"
+            end_year: "tools.end_year"
+            calculations: "tools.calculations"
+            annualaverage: "tools.annual_average"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-popular-indicators
+          description: >-
+            Get the 25 most popular BLS economic time series, optionally
+            filtered by survey type (CPS, CES, AP, etc.) to discover
+            commonly used economic benchmark series.
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "bls-public-data.get-popular-series"
+          with:
+            survey: "tools.survey"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-bls-surveys
+          description: >-
+            List all available BLS survey programs with their abbreviations.
+            Use this to discover which surveys are available before querying
+            specific series IDs.
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "bls-public-data.get-all-surveys"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-survey-details
+          description: >-
+            Get detailed metadata for a specific BLS survey program using its
+            abbreviation (e.g., CPS for Current Population Survey, CES for
+            Current Employment Statistics, AP for Average Price Data).
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "bls-public-data.get-survey-metadata"
+          with:
+            surveyId: "tools.survey_id"
+          outputParameters:
+            - type: object
+              mapping: "$."

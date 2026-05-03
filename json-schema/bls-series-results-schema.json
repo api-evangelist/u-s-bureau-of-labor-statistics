@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-results-schema.json",
+  "title": "SeriesResults",
+  "description": "Container for series data results.",
+  "type": "object",
+  "properties": {
+    "series": {
+      "type": "array",
+      "description": "Array of series data objects.",
+      "items": {
+        "$ref": "#/components/schemas/SeriesData"
+      }
+    }
+  }
+}
