@@ -63,7 +63,7 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-series-data-structure.json
         title: Series Data Structure
-      - type: JSON-LD
+      - type: JSONLD
         url: >-
           https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-ld/bls-public-data-api-context.jsonld
       - type: Example
