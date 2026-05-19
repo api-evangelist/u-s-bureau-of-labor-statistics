@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BLS Public Data API — Series
+  description: 'BLS Public Data API — Series. 3 operations. Lead operation: U.S. Bureau of Labor Statistics Get Multiple Series
+    Data. Self-contained Naftiko capability covering one U S Bureau Of Labor Statistics business surface.'
+  tags:
+  - U S Bureau Of Labor Statistics
+  - Series
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    U_S_BUREAU_OF_LABOR_STATISTICS_API_KEY: U_S_BUREAU_OF_LABOR_STATISTICS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: bls-public-data-series
+    baseUri: https://api.bls.gov/publicAPI/v2
+    description: BLS Public Data API — Series business capability. Self-contained, no shared references.
+    resources:
+    - name: timeseries-data
+      path: /timeseries/data/
+      operations:
+      - name: getmultipleseries
+        method: POST
+        description: U.S. Bureau of Labor Statistics Get Multiple Series Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: timeseries-data-seriesId
+      path: /timeseries/data/{seriesId}
+      operations:
+      - name: getsingleseries
+        method: GET
+        description: U.S. Bureau of Labor Statistics Get Single Series Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: seriesId
+          in: path
+          type: string
+          description: A single BLS series ID (e.g., LAUCN040010000000005 for local area unemployment, CUUR0000SA0 for CPI
+            All Urban Consumers).
+          required: true
+        - name: startyear
+          in: query
+          type: string
+          description: First year of data to retrieve in YYYY format.
+        - name: endyear
+          in: query
+          type: string
+          description: Last year of data to retrieve in YYYY format.
+        - name: registrationkey
+          in: query
+          type: string
+          description: BLS API registration key obtained from data.bls.gov/registrationEngine/. Required for Version 2 features
+            such as catalog, calculations, and annual averages.
+        - name: catalog
+          in: query
+          type: boolean
+          description: Set to true to include series catalog metadata in the response.
+        - name: calculations
+          in: query
+          type: boolean
+          description: Set to true to include net and percent change calculations.
+        - name: annualaverage
+          in: query
+          type: boolean
+          description: Set to true to include annual averages in the response.
+        - name: aspects
+          in: query
+          type: boolean
+          description: Set to true to include aspects metadata for the series.
+    - name: timeseries-popular
+      path: /timeseries/popular
+      operations:
+      - name: getpopularseries
+        method: GET
+        description: U.S. Bureau of Labor Statistics Get Popular Series
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: survey
+          in: query
+          type: string
+          description: Survey abbreviation to filter popular series (e.g., CPS for Current Population Survey, CES for Current
+            Employment Statistics).
+        - name: registrationkey
+          in: query
+          type: string
+          description: BLS API registration key.
+    authentication:
+      type: apikey
+      key: registrationkey
+      value: '{{env.U_S_BUREAU_OF_LABOR_STATISTICS_API_KEY}}'
+      placement: query
+  exposes:
+  - type: rest
+    namespace: bls-public-data-series-rest
+    port: 8080
+    description: REST adapter for BLS Public Data API — Series. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/timeseries/data
+      name: timeseries-data
+      description: REST surface for timeseries-data.
+      operations:
+      - method: POST
+        name: getmultipleseries
+        description: U.S. Bureau of Labor Statistics Get Multiple Series Data
+        call: bls-public-data-series.getmultipleseries
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/timeseries/data/{seriesid}
+      name: timeseries-data-seriesid
+      description: REST surface for timeseries-data-seriesId.
+      operations:
+      - method: GET
+        name: getsingleseries
+        description: U.S. Bureau of Labor Statistics Get Single Series Data
+        call: bls-public-data-series.getsingleseries
+        with:
+          seriesId: rest.seriesId
+          startyear: rest.startyear
+          endyear: rest.endyear
+          registrationkey: rest.registrationkey
+          catalog: rest.catalog
+          calculations: rest.calculations
+          annualaverage: rest.annualaverage
+          aspects: rest.aspects
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/timeseries/popular
+      name: timeseries-popular
+      description: REST surface for timeseries-popular.
+      operations:
+      - method: GET
+        name: getpopularseries
+        description: U.S. Bureau of Labor Statistics Get Popular Series
+        call: bls-public-data-series.getpopularseries
+        with:
+          survey: rest.survey
+          registrationkey: rest.registrationkey
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: bls-public-data-series-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BLS Public Data API — Series. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: u-s-bureau-labor-statistics-get
+      description: U.S. Bureau of Labor Statistics Get Multiple Series Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: bls-public-data-series.getmultipleseries
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: u-s-bureau-labor-statistics-get-2
+      description: U.S. Bureau of Labor Statistics Get Single Series Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bls-public-data-series.getsingleseries
+      with:
+        seriesId: tools.seriesId
+        startyear: tools.startyear
+        endyear: tools.endyear
+        registrationkey: tools.registrationkey
+        catalog: tools.catalog
+        calculations: tools.calculations
+        annualaverage: tools.annualaverage
+        aspects: tools.aspects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: u-s-bureau-labor-statistics-get-3
+      description: U.S. Bureau of Labor Statistics Get Popular Series
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bls-public-data-series.getpopularseries
+      with:
+        survey: tools.survey
+        registrationkey: tools.registrationkey
+      outputParameters:
+      - type: object
+        mapping: $.
