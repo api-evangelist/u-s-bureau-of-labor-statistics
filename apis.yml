@@ -4,7 +4,7 @@ description: The U.S. Bureau of Labor Statistics (BLS) is the principal federal 
   labor market activity, working conditions, and price changes in the U.S. economy. BLS collects, processes, analyzes, and
   disseminates statistical data on employment, unemployment, inflation, wages, productivity, and occupational safety through
   a public API that provides programmatic access to published historical time series data.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/apis.yml
 type: Index
 created: '2024-12-25'
