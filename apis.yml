@@ -53,15 +53,15 @@ apis:
       title: Series Data Structure
     - type: JSONLD
       url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-ld/bls-public-data-api-context.jsonld
-    - type: Example
+    - type: Examples
       url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-series-data-example.json
       title: Series Data Example
-    - type: Example
+    - type: Examples
       url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
       title: Data Point Example
-    - type: NaftikoCapability
+    - type: X-NaftikoCapability
       url: capabilities/bls-public-data-series.yaml
-    - type: NaftikoCapability
+    - type: X-NaftikoCapability
       url: capabilities/bls-public-data-surveys.yaml
 common:
   - type: LinkedIn
