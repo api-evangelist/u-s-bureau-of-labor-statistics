@@ -64,6 +64,10 @@ apis:
     - type: X-NaftikoCapability
       url: capabilities/bls-public-data-surveys.yaml
 common:
+  - type: DomainSecurity
+    url: security/u-s-bureau-of-labor-statistics-domain-security.yml
+  - type: Authentication
+    url: authentication/u-s-bureau-of-labor-statistics-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/bureau-of-labor-statistics
   - type: Website

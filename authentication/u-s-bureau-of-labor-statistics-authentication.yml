@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/bls-public-data-api-openapi.yaml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyQuery
+  type: apiKey
+  in: query
+  parameter: registrationkey
+  description: Free BLS API registration key. Register at https://data.bls.gov/registrationEngine/
+    to obtain a key for Version 2 API features.
+  sources:
+  - openapi/bls-public-data-api-openapi.yaml
