@@ -64,6 +64,8 @@ apis:
     - type: X-NaftikoCapability
       url: capabilities/bls-public-data-surveys.yaml
 common:
+  - type: AgenticAccess
+    url: agentic-access/u-s-bureau-of-labor-statistics-agentic-access.yml
   - type: DomainSecurity
     url: security/u-s-bureau-of-labor-statistics-domain-security.yml
   - type: Authentication
