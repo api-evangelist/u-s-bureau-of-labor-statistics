@@ -1,0 +1,234 @@
+openapi: 3.0.3
+info:
+  title: BLS Public Data Series Surveys API
+  description: The U.S. Bureau of Labor Statistics (BLS) Public Data API provides programmatic access to published historical time series data covering employment, unemployment, prices, wages, and other labor market indicators. The API returns JSON data and supports both Version 1 (no registration) and Version 2 (requires free registration for higher limits and additional features).
+  version: '2.0'
+  contact:
+    name: BLS Developer Support
+    url: https://www.bls.gov/developers/
+    email: webmaster@bls.gov
+  license:
+    name: Public Domain
+    url: https://www.bls.gov/
+  x-generated-from: documentation
+servers:
+- url: https://api.bls.gov/publicAPI/v2
+  description: BLS Public Data API Version 2 (registration required)
+- url: https://api.bls.gov/publicAPI/v1
+  description: BLS Public Data API Version 1 (no registration)
+security:
+- ApiKeyQuery: []
+- {}
+tags:
+- name: Surveys
+  description: Survey metadata and catalog operations for discovering available BLS surveys and their series identifiers.
+paths:
+  /surveys:
+    get:
+      operationId: getAllSurveys
+      summary: U.S. Bureau of Labor Statistics Get All Surveys
+      description: Retrieve metadata for all available BLS surveys. Returns a list of surveys with their abbreviations, names, and descriptions.
+      tags:
+      - Surveys
+      parameters:
+      - name: registrationkey
+        in: query
+        required: false
+        description: BLS API registration key.
+        schema:
+          type: string
+          example: abc123def456
+      responses:
+        '200':
+          description: Successful response with list of all surveys.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveysResponse'
+              examples:
+                GetAllSurveys200Example:
+                  summary: Default getAllSurveys 200 response
+                  x-microcks-default: true
+                  value:
+                    status: REQUEST_SUCCEEDED
+                    responseTime: 132
+                    message: []
+                    Results:
+                      survey:
+                      - survey_name: Current Employment Statistics
+                        survey_abbreviation: CE
+                      - survey_name: Current Population Survey
+                        survey_abbreviation: LN
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /surveys/{surveyId}:
+    get:
+      operationId: getSurveyMetadata
+      summary: U.S. Bureau of Labor Statistics Get Survey Metadata
+      description: Retrieve detailed metadata for a specific BLS survey using its abbreviation. Returns survey name, description, and available series information.
+      tags:
+      - Surveys
+      parameters:
+      - name: surveyId
+        in: path
+        required: true
+        description: Survey abbreviation (e.g., CPS for Current Population Survey, CES for Current Employment Statistics, AP for Average Price Data).
+        schema:
+          type: string
+          example: CPS
+      - name: registrationkey
+        in: query
+        required: false
+        description: BLS API registration key.
+        schema:
+          type: string
+          example: abc123def456
+      responses:
+        '200':
+          description: Successful response with survey metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SurveyMetadataResponse'
+              examples:
+                GetSurveyMetadata200Example:
+                  summary: Default getSurveyMetadata 200 response
+                  x-microcks-default: true
+                  value:
+                    status: REQUEST_SUCCEEDED
+                    responseTime: 112
+                    message: []
+                    Results:
+                      survey:
+                      - survey_name: Current Population Survey
+                        survey_abbreviation: CPS
+                        survey_title: Labor Force Statistics from the Current Population Survey
+                        survey_description: Monthly survey of approximately 60,000 households measuring employment and unemployment.
+        '400':
+          description: Bad request. Invalid survey ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Survey not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SurveysResponse:
+      title: SurveysResponse
+      type: object
+      description: Response containing all available BLS surveys.
+      properties:
+        status:
+          type: string
+          description: Request status.
+          example: REQUEST_SUCCEEDED
+        responseTime:
+          type: integer
+          description: Response time in milliseconds.
+          example: 132
+        message:
+          type: array
+          items:
+            type: string
+        Results:
+          type: object
+          description: Results containing survey list.
+          properties:
+            survey:
+              type: array
+              items:
+                $ref: '#/components/schemas/Survey'
+    Survey:
+      title: Survey
+      type: object
+      description: Metadata for a BLS survey program.
+      properties:
+        survey_name:
+          type: string
+          description: Full name of the BLS survey.
+          example: Current Employment Statistics
+        survey_abbreviation:
+          type: string
+          description: Two-letter abbreviation for the survey.
+          example: CE
+        survey_title:
+          type: string
+          description: Extended title of the survey.
+          example: Current Employment Statistics (National)
+        survey_description:
+          type: string
+          description: Description of the survey's scope and methodology.
+          example: Monthly survey of approximately 144,000 businesses and government agencies.
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Error response from the BLS API.
+      properties:
+        status:
+          type: string
+          description: Request failure status.
+          example: REQUEST_FAILED
+        responseTime:
+          type: integer
+          description: Response time in milliseconds.
+          example: 45
+        message:
+          type: array
+          description: Array of error messages explaining the failure.
+          items:
+            type: string
+          example:
+          - Series does not exist
+        Results:
+          type: object
+          description: Empty results on failure.
+          properties:
+            series:
+              type: array
+              items: {}
+    SurveyMetadataResponse:
+      title: SurveyMetadataResponse
+      type: object
+      description: Response containing metadata for a specific survey.
+      properties:
+        status:
+          type: string
+          description: Request status.
+          example: REQUEST_SUCCEEDED
+        responseTime:
+          type: integer
+          description: Response time in milliseconds.
+          example: 112
+        message:
+          type: array
+          items:
+            type: string
+        Results:
+          type: object
+          description: Results containing survey metadata.
+          properties:
+            survey:
+              type: array
+              items:
+                $ref: '#/components/schemas/Survey'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: registrationkey
+      description: Free BLS API registration key. Register at https://data.bls.gov/registrationEngine/ to obtain a key for Version 2 API features.
