@@ -4,7 +4,20 @@ description: The U.S. Bureau of Labor Statistics (BLS) is the principal federal 
   labor market activity, working conditions, and price changes in the U.S. economy. BLS collects, processes, analyzes, and
   disseminates statistical data on employment, unemployment, inflation, wages, productivity, and occupational safety through
   a public API that provides programmatic access to published historical time series data.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/u-s-bureau-of-labor-statistics.png
 url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/apis.yml
 type: Index
 created: '2024-12-25'
@@ -17,52 +30,91 @@ tags:
   - Employment
   - Economic Data
 apis:
-  - aid: u-s-bureau-of-labor-statistics:bls-api
-    name: BLS Public Data API
-    description: The BLS Public Data API provides programmatic access to published historical time series data covering employment,
-      unemployment, consumer prices, wages, productivity, and other labor market indicators. Version 2 (registration required)
-      supports up to 50 series per request, 20 years of data, and optional calculations including net and percent changes.
-    humanURL: https://www.bls.gov/developers/
-    baseURL: https://api.bls.gov/publicAPI/v2
-    tags:
-    - Labor Statistics
-    - Employment
-    - Unemployment
-    - Consumer Prices
-    - Wages
-    properties:
-    - type: Documentation
-      url: https://www.bls.gov/developers/api_signature_v2.htm
-    - type: GettingStarted
-      url: https://www.bls.gov/developers/
-    - type: Authentication
-      url: https://data.bls.gov/registrationEngine/
-    - type: OpenAPI
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/openapi/bls-public-data-api-openapi.yaml
-    - type: JSONSchema
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-data-schema.json
-      title: Series Data Schema
-    - type: JSONSchema
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-data-point-schema.json
-      title: Data Point Schema
-    - type: JSONSchema
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-survey-schema.json
-      title: Survey Schema
-    - type: JSONStructure
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-series-data-structure.json
-      title: Series Data Structure
-    - type: JSONLD
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-ld/bls-public-data-api-context.jsonld
-    - type: Examples
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-series-data-example.json
-      title: Series Data Example
-    - type: Examples
-      url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
-      title: Data Point Example
-    - type: X-NaftikoCapability
-      url: capabilities/bls-public-data-series.yaml
-    - type: X-NaftikoCapability
-      url: capabilities/bls-public-data-surveys.yaml
+- aid: u-s-bureau-of-labor-statistics:u-s-bureau-of-labor-statistics-series-api
+  name: U.S. Bureau of Labor Statistics Series API
+  description: >-
+    Time series data operations for retrieving labor statistics across BLS surveys including employment,
+    CPI, wages, and more.
+  humanURL: https://www.bls.gov/developers/
+  baseURL: https://api.bls.gov/publicAPI/v2
+  tags:
+  - Series
+  properties:
+  - type: OpenAPI
+    url: openapi/u-s-bureau-of-labor-statistics-series-api-openapi.yml
+  - type: Documentation
+    url: https://www.bls.gov/developers/api_signature_v2.htm
+  - type: GettingStarted
+    url: https://www.bls.gov/developers/
+  - type: Authentication
+    url: https://data.bls.gov/registrationEngine/
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-data-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-data-point-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-survey-schema.json
+  - type: JSONStructure
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-series-data-structure.json
+  - type: JSONLD
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-ld/bls-public-data-api-context.jsonld
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-series-data-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
+  - type: X-NaftikoCapability
+    url: capabilities/bls-public-data-series.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/bls-public-data-surveys.yaml
+- aid: u-s-bureau-of-labor-statistics:u-s-bureau-of-labor-statistics-surveys-api
+  name: U.S. Bureau of Labor Statistics Surveys API
+  description: >-
+    Survey metadata and catalog operations for discovering available BLS surveys and their series identifiers.
+  humanURL: https://www.bls.gov/developers/
+  baseURL: https://api.bls.gov/publicAPI/v2
+  tags:
+  - Surveys
+  properties:
+  - type: OpenAPI
+    url: openapi/u-s-bureau-of-labor-statistics-surveys-api-openapi.yml
+  - type: Documentation
+    url: https://www.bls.gov/developers/api_signature_v2.htm
+  - type: GettingStarted
+    url: https://www.bls.gov/developers/
+  - type: Authentication
+    url: https://data.bls.gov/registrationEngine/
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-series-data-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-data-point-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-schema/bls-survey-schema.json
+  - type: JSONStructure
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-structure/bls-series-data-structure.json
+  - type: JSONLD
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/json-ld/bls-public-data-api-context.jsonld
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-series-data-example.json
+  - type: Examples
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
+  - type: X-NaftikoCapability
+    url: capabilities/bls-public-data-series.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/bls-public-data-surveys.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/u-s-bureau-of-labor-statistics-agentic-access.yml
