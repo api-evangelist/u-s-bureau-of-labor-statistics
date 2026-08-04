@@ -1,0 +1,16 @@
+{
+  "provider": "u-s-bureau-of-labor-statistics",
+  "sources": [
+    "u-s-bureau-of-labor-statistics-series-api-openapi.yml",
+    "u-s-bureau-of-labor-statistics-surveys-api-openapi.yml"
+  ],
+  "outputs": [
+    "u-s-bureau-of-labor-statistics-series-api-openapi.yml",
+    "u-s-bureau-of-labor-statistics-surveys-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
