@@ -69,10 +69,6 @@ apis:
   - type: Examples
     url: >-
       https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
-  - type: X-NaftikoCapability
-    url: capabilities/bls-public-data-series.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/bls-public-data-surveys.yaml
 - aid: u-s-bureau-of-labor-statistics:u-s-bureau-of-labor-statistics-surveys-api
   name: U.S. Bureau of Labor Statistics Surveys API
   description: >-
@@ -111,10 +107,6 @@ apis:
   - type: Examples
     url: >-
       https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statistics/refs/heads/main/examples/bls-data-point-example.json
-  - type: X-NaftikoCapability
-    url: capabilities/bls-public-data-series.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/bls-public-data-surveys.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/u-s-bureau-of-labor-statistics-agentic-access.yml
