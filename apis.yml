@@ -22,7 +22,7 @@ url: https://raw.githubusercontent.com/api-evangelist/u-s-bureau-of-labor-statis
 type: Index
 created: '2024-12-25'
 modified: '2026-05-19'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 tags:
   - Federal Government
   - Labor
