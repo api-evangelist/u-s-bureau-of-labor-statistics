@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BLS Public Data Series API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "registrationkey",
+      "value": "{{registrationkey}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Series",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "U.S. Bureau of Labor Statistics Get Single Series Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/:seriesId",
+            "params": [
+              {
+                "name": "seriesId",
+                "value": "",
+                "type": "path",
+                "description": "A single BLS series ID (e.g., LAUCN040010000000005 for local area unemployment, CUUR0000SA0 for CPI All Urban Consumers)."
+              },
+              {
+                "name": "startyear",
+                "value": "",
+                "type": "query",
+                "description": "First year of data to retrieve in YYYY format."
+              },
+              {
+                "name": "endyear",
+                "value": "",
+                "type": "query",
+                "description": "Last year of data to retrieve in YYYY format."
+              },
+              {
+                "name": "registrationkey",
+                "value": "",
+                "type": "query",
+                "description": "BLS API registration key obtained from data.bls.gov/registrationEngine/. Required for Version 2 features such as catalog, calculations, and annual averages."
+              },
+              {
+                "name": "catalog",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include series catalog metadata in the response."
+              },
+              {
+                "name": "calculations",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include net and percent change calculations."
+              },
+              {
+                "name": "annualaverage",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include annual averages in the response."
+              },
+              {
+                "name": "aspects",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include aspects metadata for the series."
+              }
+            ]
+          },
+          "docs": "Retrieve time series data for a single BLS series ID. Returns historical data points including year, period, and value. Optional parameters allow filtering by year range and requesting additional metadata."
+        },
+        {
+          "info": {
+            "name": "U.S. Bureau of Labor Statistics Get Multiple Series Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve time series data for one or more BLS series IDs in a single request. Version 2 supports up to 50 series per request and up to 20 years of data. Version 1 supports up to 25 series and fewer features."
+        },
+        {
+          "info": {
+            "name": "U.S. Bureau of Labor Statistics Get Popular Series",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bls.gov/publicAPI/v2/timeseries/popular",
+            "params": [
+              {
+                "name": "survey",
+                "value": "",
+                "type": "query",
+                "description": "Survey abbreviation to filter popular series (e.g., CPS for Current Population Survey, CES for Current Employment Statistics)."
+              },
+              {
+                "name": "registrationkey",
+                "value": "",
+                "type": "query",
+                "description": "BLS API registration key."
+              }
+            ]
+          },
+          "docs": "Retrieve the 25 most popular BLS series IDs. Can optionally specify a survey abbreviation to get popular series for a specific survey."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,389 @@
+{
+  "item": [
+    {
+      "id": "f29f8f9d-5eed-4bfc-a4df-14bd72d30175",
+      "name": "Surveys",
+      "description": {
+        "content": "Survey metadata and catalog operations for discovering available BLS surveys and their series identifiers.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b96f07b-e2b7-4a17-a440-10f5f7aeaede",
+          "name": "U.S. Bureau of Labor Statistics Get All Surveys",
+          "request": {
+            "name": "U.S. Bureau of Labor Statistics Get All Surveys",
+            "description": {
+              "content": "Retrieve metadata for all available BLS surveys. Returns a list of surveys with their abbreviations, names, and descriptions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "surveys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "registrationkey",
+                  "value": "<string>",
+                  "description": "BLS API registration key."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ac6f6958-2188-4cc6-93bb-d8719bc8d0a6",
+              "name": "Successful response with list of all surveys.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "surveys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "registrationkey",
+                      "value": "abc123def456"
+                    },
+                    {
+                      "key": "registrationkey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"REQUEST_SUCCEEDED\",\n  \"responseTime\": 132,\n  \"message\": [],\n  \"Results\": {\n    \"survey\": [\n      {\n        \"survey_name\": \"Current Employment Statistics\",\n        \"survey_abbreviation\": \"CE\"\n      },\n      {\n        \"survey_name\": \"Current Population Survey\",\n        \"survey_abbreviation\": \"LN\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e232cda1-d345-4acb-86fd-2e6d7b288865",
+              "name": "Bad request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "surveys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "registrationkey",
+                      "value": "abc123def456"
+                    },
+                    {
+                      "key": "registrationkey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"REQUEST_FAILED\",\n  \"responseTime\": 45,\n  \"message\": [\n    \"Series does not exist\"\n  ],\n  \"Results\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6065e81-6478-4126-a96c-8a37557405a2",
+          "name": "U.S. Bureau of Labor Statistics Get Survey Metadata",
+          "request": {
+            "name": "U.S. Bureau of Labor Statistics Get Survey Metadata",
+            "description": {
+              "content": "Retrieve detailed metadata for a specific BLS survey using its abbreviation. Returns survey name, description, and available series information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "surveys",
+                ":surveyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "registrationkey",
+                  "value": "<string>",
+                  "description": "BLS API registration key."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "surveyId",
+                  "description": "(Required) Survey abbreviation (e.g., CPS for Current Population Survey, CES for Current Employment Statistics, AP for Average Price Data)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb19a4d6-03a1-4c18-8eb3-ccd32e220ede",
+              "name": "Successful response with survey metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "surveys",
+                    ":surveyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "registrationkey",
+                      "value": "abc123def456"
+                    },
+                    {
+                      "key": "registrationkey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "surveyId",
+                      "description": "(Required) Survey abbreviation (e.g., CPS for Current Population Survey, CES for Current Employment Statistics, AP for Average Price Data)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"REQUEST_SUCCEEDED\",\n  \"responseTime\": 112,\n  \"message\": [],\n  \"Results\": {\n    \"survey\": [\n      {\n        \"survey_name\": \"Current Population Survey\",\n        \"survey_abbreviation\": \"CPS\",\n        \"survey_title\": \"Labor Force Statistics from the Current Population Survey\",\n        \"survey_description\": \"Monthly survey of approximately 60,000 households measuring employment and unemployment.\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28c2692e-0f47-4752-a941-a96bd932e635",
+              "name": "Bad request. Invalid survey ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "surveys",
+                    ":surveyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "registrationkey",
+                      "value": "abc123def456"
+                    },
+                    {
+                      "key": "registrationkey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "surveyId",
+                      "description": "(Required) Survey abbreviation (e.g., CPS for Current Population Survey, CES for Current Employment Statistics, AP for Average Price Data)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"REQUEST_FAILED\",\n  \"responseTime\": 45,\n  \"message\": [\n    \"Series does not exist\"\n  ],\n  \"Results\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb705447-27d6-4b44-96d4-22c01192c676",
+              "name": "Survey not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "surveys",
+                    ":surveyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "registrationkey",
+                      "value": "abc123def456"
+                    },
+                    {
+                      "key": "registrationkey",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "surveyId",
+                      "description": "(Required) Survey abbreviation (e.g., CPS for Current Population Survey, CES for Current Employment Statistics, AP for Average Price Data)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"REQUEST_FAILED\",\n  \"responseTime\": 45,\n  \"message\": [\n    \"Series does not exist\"\n  ],\n  \"Results\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bls.gov/publicAPI/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "registrationkey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "97c8a19a-bde9-483c-8fa1-ea1ec8a1f768",
+    "name": "BLS Public Data Series Surveys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The U.S. Bureau of Labor Statistics (BLS) Public Data API provides programmatic access to published historical time series data covering employment, unemployment, prices, wages, and other labor market indicators. The API returns JSON data and supports both Version 1 (no registration) and Version 2 (requires free registration for higher limits and additional features).\n\nContact Support:\n Name: BLS Developer Support\n Email: webmaster@bls.gov",
+      "type": "text/plain"
+    }
+  }
+}
