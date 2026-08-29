@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BLS Public Data Series Surveys API
   description: The U.S. Bureau of Labor Statistics (BLS) Public Data API provides programmatic access to published historical time series data covering employment, unemployment, prices, wages, and other labor market indicators. The API returns JSON data and supports both Version 1 (no registration) and Version 2 (requires free registration for higher limits and additional features).
@@ -128,6 +128,31 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    SurveyMetadataResponse:
+      title: SurveyMetadataResponse
+      type: object
+      description: Response containing metadata for a specific survey.
+      properties:
+        status:
+          type: string
+          description: Request status.
+          example: REQUEST_SUCCEEDED
+        responseTime:
+          type: integer
+          description: Response time in milliseconds.
+          example: 112
+        message:
+          type: array
+          items:
+            type: string
+        Results:
+          type: object
+          description: Results containing survey metadata.
+          properties:
+            survey:
+              type: array
+              items:
+                $ref: '#/components/schemas/Survey'
     SurveysResponse:
       title: SurveysResponse
       type: object
@@ -201,31 +226,6 @@ components:
             series:
               type: array
               items: {}
-    SurveyMetadataResponse:
-      title: SurveyMetadataResponse
-      type: object
-      description: Response containing metadata for a specific survey.
-      properties:
-        status:
-          type: string
-          description: Request status.
-          example: REQUEST_SUCCEEDED
-        responseTime:
-          type: integer
-          description: Response time in milliseconds.
-          example: 112
-        message:
-          type: array
-          items:
-            type: string
-        Results:
-          type: object
-          description: Results containing survey metadata.
-          properties:
-            survey:
-              type: array
-              items:
-                $ref: '#/components/schemas/Survey'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BLS Public Data Series API
   description: The U.S. Bureau of Labor Statistics (BLS) Public Data API provides programmatic access to published historical time series data covering employment, unemployment, prices, wages, and other labor market indicators. The API returns JSON data and supports both Version 1 (no registration) and Version 2 (requires free registration for higher limits and additional features).
@@ -251,71 +251,39 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    SeriesResults:
-      title: SeriesResults
+    Calculations:
+      title: Calculations
       type: object
-      description: Container for series data results.
-      properties:
-        series:
-          type: array
-          description: Array of series data objects.
-          items:
-            $ref: '#/components/schemas/SeriesData'
-    PeriodCalculations:
-      title: PeriodCalculations
-      type: object
-      description: Calculations for a specific data point.
+      description: Net and percent change calculations for a series.
       properties:
         net_changes:
           type: object
-          description: Net change from prior periods.
+          description: Net change values by period label.
           additionalProperties:
             type: string
         pct_changes:
           type: object
-          description: Percent change from prior periods.
+          description: Percent change values by period label.
           additionalProperties:
             type: string
-    ErrorResponse:
-      title: ErrorResponse
+    SeriesData:
+      title: SeriesData
       type: object
-      description: Error response from the BLS API.
+      description: Data for a single BLS time series.
       properties:
-        status:
+        seriesID:
           type: string
-          description: Request failure status.
-          example: REQUEST_FAILED
-        responseTime:
-          type: integer
-          description: Response time in milliseconds.
-          example: 45
-        message:
+          description: BLS series identifier.
+          example: CUUR0000SA0
+        catalog:
+          $ref: '#/components/schemas/SeriesCatalog'
+        data:
           type: array
-          description: Array of error messages explaining the failure.
+          description: Array of data points for the series.
           items:
-            type: string
-          example:
-          - Series does not exist
-        Results:
-          type: object
-          description: Empty results on failure.
-          properties:
-            series:
-              type: array
-              items: {}
-    Footnote:
-      title: Footnote
-      type: object
-      description: A footnote code and text applicable to a data point.
-      properties:
-        code:
-          type: string
-          description: Footnote code letter.
-          example: P
-        text:
-          type: string
-          description: Footnote explanation text.
-          example: Preliminary
+            $ref: '#/components/schemas/DataPoint'
+        calculations:
+          $ref: '#/components/schemas/Calculations'
     PopularSeriesResponse:
       title: PopularSeriesResponse
       type: object
@@ -348,81 +316,6 @@ components:
                     example: LNS14000000
                   catalog:
                     $ref: '#/components/schemas/SeriesCatalog'
-    SeriesCatalog:
-      title: SeriesCatalog
-      type: object
-      description: Catalog metadata describing a BLS series.
-      properties:
-        series_id:
-          type: string
-          description: BLS series identifier.
-          example: LNS14000000
-        seasonality:
-          type: string
-          description: Seasonality adjustment type (Seasonally Adjusted, Not Seasonally Adjusted).
-          example: Seasonally Adjusted
-        series_title:
-          type: string
-          description: Descriptive title for the series.
-          example: (Seas) Unemployment Rate
-        measure_data_type:
-          type: string
-          description: Type of measure reported.
-          example: Unemployment rate
-        commerce_industry:
-          type: string
-          description: Industry classification if applicable.
-          example: ''
-        occupation:
-          type: string
-          description: Occupation classification if applicable.
-          example: ''
-        survey_name:
-          type: string
-          description: Full name of the BLS survey providing this series.
-          example: Labor Force Statistics from the Current Population Survey
-        survey_abbreviation:
-          type: string
-          description: Abbreviation code for the BLS survey.
-          example: LN
-    SeriesData:
-      title: SeriesData
-      type: object
-      description: Data for a single BLS time series.
-      properties:
-        seriesID:
-          type: string
-          description: BLS series identifier.
-          example: CUUR0000SA0
-        catalog:
-          $ref: '#/components/schemas/SeriesCatalog'
-        data:
-          type: array
-          description: Array of data points for the series.
-          items:
-            $ref: '#/components/schemas/DataPoint'
-        calculations:
-          $ref: '#/components/schemas/Calculations'
-    SeriesResponse:
-      title: SeriesResponse
-      type: object
-      description: Standard BLS API response containing time series data.
-      properties:
-        status:
-          type: string
-          description: Request status (REQUEST_SUCCEEDED, REQUEST_FAILED, REQUEST_NOT_PROCESSED).
-          example: REQUEST_SUCCEEDED
-        responseTime:
-          type: integer
-          description: Server response time in milliseconds.
-          example: 178
-        message:
-          type: array
-          description: Array of informational or error messages.
-          items:
-            type: string
-        Results:
-          $ref: '#/components/schemas/SeriesResults'
     MultipleSeriesRequest:
       title: MultipleSeriesRequest
       type: object
@@ -466,21 +359,6 @@ components:
           type: boolean
           description: Include aspects metadata.
           example: false
-    Calculations:
-      title: Calculations
-      type: object
-      description: Net and percent change calculations for a series.
-      properties:
-        net_changes:
-          type: object
-          description: Net change values by period label.
-          additionalProperties:
-            type: string
-        pct_changes:
-          type: object
-          description: Percent change values by period label.
-          additionalProperties:
-            type: string
     DataPoint:
       title: DataPoint
       type: object
@@ -513,6 +391,128 @@ components:
           example: 'true'
         calculations:
           $ref: '#/components/schemas/PeriodCalculations'
+    Footnote:
+      title: Footnote
+      type: object
+      description: A footnote code and text applicable to a data point.
+      properties:
+        code:
+          type: string
+          description: Footnote code letter.
+          example: P
+        text:
+          type: string
+          description: Footnote explanation text.
+          example: Preliminary
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Error response from the BLS API.
+      properties:
+        status:
+          type: string
+          description: Request failure status.
+          example: REQUEST_FAILED
+        responseTime:
+          type: integer
+          description: Response time in milliseconds.
+          example: 45
+        message:
+          type: array
+          description: Array of error messages explaining the failure.
+          items:
+            type: string
+          example:
+          - Series does not exist
+        Results:
+          type: object
+          description: Empty results on failure.
+          properties:
+            series:
+              type: array
+              items: {}
+    SeriesResults:
+      title: SeriesResults
+      type: object
+      description: Container for series data results.
+      properties:
+        series:
+          type: array
+          description: Array of series data objects.
+          items:
+            $ref: '#/components/schemas/SeriesData'
+    SeriesResponse:
+      title: SeriesResponse
+      type: object
+      description: Standard BLS API response containing time series data.
+      properties:
+        status:
+          type: string
+          description: Request status (REQUEST_SUCCEEDED, REQUEST_FAILED, REQUEST_NOT_PROCESSED).
+          example: REQUEST_SUCCEEDED
+        responseTime:
+          type: integer
+          description: Server response time in milliseconds.
+          example: 178
+        message:
+          type: array
+          description: Array of informational or error messages.
+          items:
+            type: string
+        Results:
+          $ref: '#/components/schemas/SeriesResults'
+    SeriesCatalog:
+      title: SeriesCatalog
+      type: object
+      description: Catalog metadata describing a BLS series.
+      properties:
+        series_id:
+          type: string
+          description: BLS series identifier.
+          example: LNS14000000
+        seasonality:
+          type: string
+          description: Seasonality adjustment type (Seasonally Adjusted, Not Seasonally Adjusted).
+          example: Seasonally Adjusted
+        series_title:
+          type: string
+          description: Descriptive title for the series.
+          example: (Seas) Unemployment Rate
+        measure_data_type:
+          type: string
+          description: Type of measure reported.
+          example: Unemployment rate
+        commerce_industry:
+          type: string
+          description: Industry classification if applicable.
+          example: ''
+        occupation:
+          type: string
+          description: Occupation classification if applicable.
+          example: ''
+        survey_name:
+          type: string
+          description: Full name of the BLS survey providing this series.
+          example: Labor Force Statistics from the Current Population Survey
+        survey_abbreviation:
+          type: string
+          description: Abbreviation code for the BLS survey.
+          example: LN
+    PeriodCalculations:
+      title: PeriodCalculations
+      type: object
+      description: Calculations for a specific data point.
+      properties:
+        net_changes:
+          type: object
+          description: Net change from prior periods.
+          additionalProperties:
+            type: string
+        pct_changes:
+          type: object
+          description: Percent change from prior periods.
+          additionalProperties:
+            type: string
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
